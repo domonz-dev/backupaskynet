@@ -11,5 +11,7 @@ Commands:
 * settings
 * ping
 * reload
+* poll
+* mpoll
 
 \ ゜o゜)ノ
