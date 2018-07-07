@@ -1,5 +1,5 @@
 var fs = require('fs'); //FileSystem
-let conf = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
+let conf = JSON.parse(fs.readFileSync("/config.json", "utf8")); //Config file
 
 exports.run = (client, message, args) => { //Collecting info about command
     message.channel.send({

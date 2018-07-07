@@ -1,5 +1,5 @@
 var fs = require('fs'); //FileSystem
-let conf = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
+let conf = JSON.parse(fs.readFileSync("/config.json", "utf8")); //Config file
 var pref = conf.prefix; //Prefix state
 var del = conf.delete; //Auto-delete state
 const embed = {};
