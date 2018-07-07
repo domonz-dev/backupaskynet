@@ -8,7 +8,7 @@ app.get("/", (request, response) => {
 app.listen(process.env.PORT);
 setInterval(() => {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 280000);
+}, 600000);
 
 //Libraries
 const Discord = require('discord.js-commando'); //Discord library
@@ -61,7 +61,7 @@ client.on('message', message => { //If recieves message
         let commandFile = require(`./commands/${cmd}.js`); //Require commands from folder
         commandFile.run(client, message, args, ops); //Pass four args into 'command'.js
         if (del == 'Да') {
-            message.delete(1000);
+            message.delete(5000);
         }
 
     } catch (e) { //Catch errors 
