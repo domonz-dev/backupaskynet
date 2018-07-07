@@ -14,7 +14,7 @@ setInterval(() => {
 const Discord = require('discord.js-commando'); //Discord library
 const fs = require('fs'); //FileSystem
 const ascii = require('ascii-art'); //Extra-lib
-let config = JSON.parse(fs.readFileSync("/config.json", "utf8")); //Reading config
+let config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Reading config
 //Creating bot
 const client = new Discord.Client();
 
