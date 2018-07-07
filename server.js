@@ -58,7 +58,7 @@ client.on('message', message => { //If recieves message
             ownerId: ownerId
         }
 
-        let commandFile = require(`./${cmd}.js`); //Require commands from folder
+        let commandFile = require(`./commands/${cmd}.js`); //Require commands from folder
         commandFile.run(client, message, args, ops); //Pass four args into 'command'.js
         if (del == 'Да') {
             message.delete(1000);
