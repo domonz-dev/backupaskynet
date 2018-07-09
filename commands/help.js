@@ -10,11 +10,11 @@ exports.run = (client, message, args) => { //Collecting info about command
       
       const embed = { //Embed with help
           "title": "***Меню помощи***",
-          "description": `Здесь я написал для тебя все мои команды \n*Мой префикс - ${i.prefix}*`,
+          "description": `Здесь я написал для тебя все мои команды \n*Мой префикс - ``${i.prefix}``*`,
           "color": 16776960,
           "timestamp": "1337-01-01T02:28:00",
           "footer": {
-              "text": i.prefix + "help"
+              "text": message
           },
           "fields": [{
               "name": "Команды",

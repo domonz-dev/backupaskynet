@@ -31,7 +31,7 @@ exports.run = (client, message, args) => { //Collecting info about command
             "color": 16098851,
             "timestamp": "1337-01-01T02:28:00",
             "footer": {
-                "text": i.prefix + "prefix"
+                "text": message
             },
             "fields": [{
                     "name": `Сменить префикс`,
