@@ -29,7 +29,7 @@ const serverStats = {
 var ownerId = '338752589451755521'; //My ID
 
 client.on('ready', () => { //Startup
-    console.log("Bot started!");
+    console.log("Bot on!");
     client.user.setStatus('online');
 });
 
