@@ -1,9 +1,9 @@
 const Discord = require("discord.js");
-var fs = require('fs'); //FileSystem
-let config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
+const db = require('quick.db');
 
 exports.run = (client, message, args) => {
-    let args1 = message.content.slice(config.prefix.length + "mpoll".length).trim().split('|'); //Setting-up arguments of command
+  db.fetch(`guild_${message.guild.id}`).then(i => { //Looking guildID
+    let args1 = message.content.slice(i.prefix.length + "mpoll".length).trim().split('|'); //Setting-up arguments of command
     if (args1 === null || args1.length < 3 || args1.length > 10) {
         return message.reply("неверный формат опроса - `mpoll <question>|<answer1>|...|<answer9>`"); 
     }
@@ -27,4 +27,5 @@ exports.run = (client, message, args) => {
             await msg.react(choices[i]);
         }
     });
+  });
 }
