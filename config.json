@@ -1,0 +1,34 @@
+{
+  "464177325571964950": {
+    "prefix": "+",
+    "delete": "false",
+    "deleteTime": 10000,
+    "volume": 100,
+    "maxVolume": 200,
+    "djonly": true,
+    "djroles": [
+      "DJRole",
+      "DJ"
+    ],
+    "djmembers": [
+      "hgangan",
+      "expoBot"
+    ]
+  },
+  "468804512946061352": {
+    "prefix": "+",
+    "delete": "true",
+    "deleteTime": 10000,
+    "volume": 100,
+    "maxVolume": 200,
+    "djonly": true,
+    "djroles": [
+      "DJRole",
+      "DJ"
+    ],
+    "djmembers": [
+      "hgangan",
+      "expoBot"
+    ]
+  }
+}
