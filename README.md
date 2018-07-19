@@ -15,6 +15,7 @@ Commands:
 * settings
 * ping
 * reload
+* ascii
 * messages
 * leaderboards
 * stats
