@@ -11,10 +11,28 @@ exports.run = async (client, message, args, ops) => { //Collecting info about co
   };
 
   if (!message.member.voiceChannel) {
-    return message.channel.send("Зайди в голосовой канал для начала!");
+    return message.channel.send({
+      embed: {
+        "title": "Join voice channel first!",
+        "color": 0xff2222
+      }
+    }).then(msg => {
+      if (config[message.guild.id].delete == 'true') {
+        msg.delete(config[message.guild.id].deleteTime);
+      }
+    });
   }
   if (!song) {
-    return message.channel.send("Вставьте URL композиции!");
+    return message.channel.send({
+      embed: {
+        "title": "Input URL or song name!",
+        "color": 0xff2222
+      }
+    }).then(msg => {
+      if (config[message.guild.id].delete == 'true') {
+        msg.delete(config[message.guild.id].deleteTime);
+      }
+    });
   }
 
   let validate = await ytdl.validateURL(song);
@@ -49,8 +67,12 @@ exports.run = async (client, message, args, ops) => { //Collecting info about co
   } else {
     message.channel.send(new Discord.RichEmbed()
       .setColor(0x0ea5d3)
-      .setAuthor("Предложен " + message.author.username, message.author.avatarURL)
-      .setDescription("Добавлена в очередь композиция **" + info.title + "**"));
+      .setAuthor("Suggested by " + message.author.username, message.author.avatarURL)
+      .setDescription("Added to queue **" + info.title + "**")).then(msg => {
+      if (config[message.guild.id].delete == 'true') {
+        msg.delete(config[message.guild.id].deleteTime);
+      }
+    });
   }
 
   ops.active.set(message.guild.id, data);
@@ -61,8 +83,8 @@ async function play(client, ops, data, streamOptions) {
 
   client.channels.get(data.queue[0].announceChannel).send(new Discord.RichEmbed()
     .setColor(0x0ea5d3)
-    .setAuthor("Предложен " + data.queue[0].requestAuthor.username, data.queue[0].requestAuthor.avatarURL)
-    .setDescription("Играет **" + data.queue[0].songTitle + "**"));
+    .setAuthor("Suggested by " + data.queue[0].requestAuthor.username, data.queue[0].requestAuthor.avatarURL)
+    .setDescription("Now playing **" + data.queue[0].songTitle + "**"));
 
   data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, {
     filter: "audioonly"

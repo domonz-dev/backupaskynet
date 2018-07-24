@@ -1,5 +1,5 @@
 var fs = require('fs'); //FileSystem
-let conf = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
+let config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
 
 exports.run = (client, message, args, ops) => { //Collecting info about command
 
@@ -12,12 +12,12 @@ exports.run = (client, message, args, ops) => { //Collecting info about command
   let queue = fetched.queue;
   let nowPlaying = queue[0];
 
-  let response = "Играет **" + nowPlaying.songTitle + "**\nПредложен " + nowPlaying.requestAuthor.username;
+  let response = "Now playing **" + nowPlaying.songTitle + "**\nSuggested by " + nowPlaying.requestAuthor.username;
   let queueList = "";
   if (queue.length == 1) {
     queueList = "";
   } else {
-    queueList = "\n\n**Очередь:** \n";
+    queueList = "\n\n**Queue:** \n";
   }
 
   for (let i = 1; i < queue.length; i++) {
@@ -31,6 +31,10 @@ exports.run = (client, message, args, ops) => { //Collecting info about command
         "text": message + ""
       },
       "color": 10288426
+    }
+  }).then(msg => {
+    if (config[message.guild.id].delete == 'true') {
+      msg.delete(config[message.guild.id].deleteTime);
     }
   });
 

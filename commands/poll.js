@@ -7,15 +7,14 @@ exports.run = (client, message, args) => {
   if (args.length == 0) {
     return message.channel.send({
       embed: {
-        "title": "Помощь",
-        "description": "Помощь по команде poll и mpoll",
+        "title": "Help",
         "fields": [{
-            "name": "Простой опрос (Да/Нет)",
-            "value": "`poll` - это меню\n`poll <time> <question>` - создание опроса с отсчётом времени. Время указывается в секундах, изначально - 1 час"
+            "name": "Simple Poll (Yes/No)",
+            "value": "`poll` - this menu\n`poll <time> <question>` - poll with timed end. Time should be entered in seconds, default - 1 hour"
           },
           {
-            "name": "Опрос c выбором ответа",
-            "value": "`mpoll <time> <question> <a1>...<a9>` - создание опроса с выбором ответа и с отсчётом времени. Время указывается в секундах, изначально - 1 час"
+            "name": "Multi-choice Poll",
+            "value": "`mpoll <time> <question> <a1>...<a9>` - poll with multi-choice and timed end. Time should be entered in seconds, default - 1 hour"
           }
         ],
         "color": 3264944,
@@ -54,9 +53,9 @@ exports.run = (client, message, args) => {
       time: time1
     });
 
-    var yes = "Больше всего проголосовало 👍";
-    var no = "Больше всего проголосовало 👎";
-    var tie = "Ничья!";
+    var yes = "Most voted 👍";
+    var no = "Most voted 👎";
+    var tie = "Tie!";
     var end;
 
     if (msg.reactions.get('👍').count - 1 > msg.reactions.get('👎').count - 1) {
@@ -70,7 +69,7 @@ exports.run = (client, message, args) => {
     msg.channel.send({
       embed: {
         "title": question,
-        "description": `**Опрос закончен!** \n\n👍: ${msg.reactions.get('👍').count-1}\n***----------***\n👎: ${msg.reactions.get('👎').count-1}`,
+        "description": `**Poll ended!** \n\n👍: ${msg.reactions.get('👍').count-1}\n***----------***\n👎: ${msg.reactions.get('👎').count-1}`,
         "color": 3264944,
         "footer": {
           "text": end

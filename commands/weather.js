@@ -12,11 +12,15 @@ exports.run = (client, message, args) => {
     if (result === undefined || result.length === 0) {
       message.channel.send({
         embed: {
-          "description": "**Введите место**",
-          "title": "Ошибка",
-          "color": 16729413
+          "description": "**Enter place**",
+          "title": "Error",
+          "color": 0xff2222
         }
-      })
+      }).then(msg => {
+        if (conf[message.guild.id].delete == 'true') {
+          msg.delete(conf[message.guild.id].deleteTime);
+        }
+      });
       return;
     }
     var current = result[0].current;
@@ -26,12 +30,12 @@ exports.run = (client, message, args) => {
       .setAuthor(`Weather for ${current.observationpoint}`)
       .setThumbnail(current.imageUrl)
       .setColor(0x00AE86)
-      .addField('Таймкод', `UTC${location.timezone}`, true)
-      .addField('Тип градуса', location.degreetype, true)
-      .addField('Температкра', `${current.temperature} Degrees`, true)
-      .addField('Ощущается', `${current.feelslike} Degrees`, true)
-      .addField('Скорость ветра', current.winddisplay, true)
-      .addField('Влажность', `${current.humidity}%`, true)
+      .addField('Timezone', `UTC${location.timezone}`, true)
+      .addField('Degree Type', location.degreetype, true)
+      .addField('Temperature', `${current.temperature} Degrees`, true)
+      .addField('Feels like', `${current.feelslike} Degrees`, true)
+      .addField('Winds', current.winddisplay, true)
+      .addField('Humidity', `${current.humidity}%`, true)
     message.channel.send({
       embed
     });

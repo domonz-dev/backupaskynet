@@ -4,16 +4,16 @@ let config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
 exports.run = (client, message, args) => { //Collecting info about command
   message.channel.send({
     embed: {
-      "title": "***Префикс***",
-      "description": "Текущий префикс - " + config[message.guild.id].prefix,
+      "title": "Prefix",
+      "description": "Now prefix - `" + config[message.guild.id].prefix + "`",
       "color": 16762675,
       "timestamp": "1337-01-01T02:28:00",
       "footer": {
         "text": message + ""
       },
       "fields": [{
-        "name": `Сменить префикс`,
-        "value": config[message.guild.id].prefix + "settings prefix (prefix)"
+        "name": `Change prefix`,
+        "value": config[message.guild.id].prefix + "settings prefix <prefix>"
       }]
     }
   }).then(msg => {
