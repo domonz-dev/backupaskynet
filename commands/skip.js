@@ -16,14 +16,29 @@ exports.run = (client, message, args, ops) => { //Collecting info about command
   }
 
   if (fetched.queue[0].voteSkips.includes(message.member.id)) {
-    return message.channel.send("Ты уже проголосовал за пропуск композиции! Осталось: " + fetched.queue[0].voteSkips.length / required);
+    return message.channel.send({
+      embed: {
+        "title": "You are already voted for skip!",
+        "description": "Left: " + fetched.queue[0].voteSkips.length / required,
+        "color": 0xff2222
+      }
+    });
   }
 
   fetched.queue[0].voteSkips.push(message.member.id);
   ops.active.set(message.guild.id, fetched);
 
   if (fetched.queue[0].voteSkips.length >= required) {
-    message.channel.send("Композиция пропущена!");
+    message.channel.send({
+      embed: {
+        "title": "Song skipped!",
+        "color": 0x22ff22
+      }
+    }).then(msg => {
+      if (conf[message.guild.id].delete == 'true') {
+        msg.delete(conf[message.guild.id].deleteTime);
+      }
+    });
     if (!fetched.queue.length == 0) {
       return fetched.dispatcher.emit('finish');
     } else {
@@ -32,6 +47,16 @@ exports.run = (client, message, args, ops) => { //Collecting info about command
     ops.active.set(message.guild.id, fetched);
   }
 
-  message.channel.send("Вы успешно проголосовали! Осталось: " + Math.ceil(fetched.queue[0].voteSkips.length / required));
+  message.channel.send({
+    embed: {
+      "title": "Voted!",
+      "description": "Left: " + Math.ceil(fetched.queue[0].voteSkips.length / required),
+      "color": 0x22ff22
+    }
+  }).then(msg => {
+    if (conf[message.guild.id].delete == 'true') {
+      msg.delete(conf[message.guild.id].deleteTime);
+    }
+  });
 
 }

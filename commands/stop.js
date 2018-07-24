@@ -5,14 +5,31 @@ exports.run = (client, message, args, ops) => {
 
   let fetched = ops.active.get(message.guild.id);
 
-  if (!fetched) return message.channel.send("Сейчас ничего не играет! Используй `play <url>|<song>` чтобы поставить композицию в очередь.");
-  if (message.member.voiceChannel !== message.guild.me.voiceChannel) return message.channel.send("Ты должен быть в одном канале с ботом!");
+  if (!fetched) return message.channel.send("Nothing is playing! Use `play <url>|<song>` to add song to queue").then(msg => {
+    if (conf[message.guild.id].delete == 'true') {
+      msg.delete(conf[message.guild.id].deleteTime);
+    }
+  });
+  if (message.member.voiceChannel !== message.guild.me.voiceChannel) return message.channel.send({
+    embed: {
+      "title": "You should be in same channel with me!",
+      "color": 0xff2222
+    }
+  }).then(msg => {
+    if (conf[message.guild.id].delete == 'true') {
+      msg.delete(conf[message.guild.id].deleteTime);
+    }
+  });
 
   fetched.dispatcher.end();
   message.channel.send({
     embed: {
-      "description": "Критическая остановка!",
-      "color": 16725558
+      "description": "Critical stop!",
+      "color": 0x5921ff
+    }
+  }).then(msg => {
+    if (conf[message.guild.id].delete == 'true') {
+      msg.delete(conf[message.guild.id].deleteTime);
     }
   });
 

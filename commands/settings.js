@@ -12,29 +12,29 @@ exports.run = (client, message, args) => { //Collecting info about command
   var volume = config[message.guild.id].volume; //Volume state
   var maxVolume = config[message.guild.id].maxVolume; //maxVolume state
 
-  if (!args[0]) message.channel.send({ //Send embed
+  if (!args[0]) return message.channel.send({ //Send embed
     embed: {
-      "title": "Настройки",
-      "description": "Здесь я написал для тебя все мои настройки \n*Используй `" + prefix + "settings (name) (value)` чтобы изменить параметр*",
+      "title": "Settings",
+      "description": "Here is all my settings \n*Use `" + prefix + "settings (name) (value)` to change the parameter*",
       "color": 16098851,
       "timestamp": "1337-01-01T02:28:00",
       "footer": {
         "text": message + ""
       },
       "fields": [{
-          "name": "Префикс",
+          "name": "Prefix",
           "value": prefix + ""
         },
         {
-          "name": "Авто-удаление",
-          "value": del + ", задержка - ``" + config[message.guild.id].deleteTime / 1000 + "``" + " секунд"
+          "name": "Auto-deleting",
+          "value": del + ", delay - ``" + config[message.guild.id].deleteTime / 1000 + "``" + " seconds"
         },
         {
-          "name": "Громкость по умолчанию",
+          "name": "Default Volume",
           "value": "`volume` - " + volume + "%"
         },
         {
-          "name": "Максимальная громкость",
+          "name": "Max Volume",
           "value": "`maxVolume` - " + maxVolume + "%"
         }
       ]
@@ -45,16 +45,16 @@ exports.run = (client, message, args) => { //Collecting info about command
     }
   }); //If no arguments, just 'settings'
 
-  if (args[0] == 'префикс' || args[0] == 'prefix') { //If first argument is 'prefix' or 'префикс' and second argument (new prefix) isn't null...
+  if (args[0] == 'prefix') { //If first argument is 'prefix' or 'префикс' and second argument (new prefix) isn't null...
     if (!args[1]) return message.channel.send({
       embed: {
-        "color": 16728064,
+        "color": 0xff2222,
         "timestamp": "1337-01-01T02:28:00",
         "footer": {
           "text": message + ""
         },
-        "description": 'Введите префикс',
-        "title": "Ошибка"
+        "description": 'Enter prefix',
+        "title": "Error"
       }
     }).then(msg => {
       if (config[message.guild.id].delete == 'true') {
@@ -63,13 +63,13 @@ exports.run = (client, message, args) => { //Collecting info about command
     }); //If no prefix value
     if (args[1].length >= 5) return message.channel.send({
       embed: {
-        "color": 16728064,
+        "color": 0xff2222,
         "timestamp": "1337-01-01T02:28:00",
         "footer": {
           "text": message + ""
         },
-        "description": 'Введите префикс, который будет иметь меньше 5 символов',
-        "title": "Ошибка"
+        "description": 'Enter prefix that smaller than 5 symbols',
+        "title": "Error"
       }
     }).then(msg => {
       if (config[message.guild.id].delete == 'true') {
@@ -92,8 +92,8 @@ exports.run = (client, message, args) => { //Collecting info about command
           "text": message + ""
         },
         "fields": [{
-          "name": "**Префикс успешно изменён!**",
-          "value": "Теперь префикс " + prefix + ""
+          "name": "Prefix successfuly changed!",
+          "value": "Now prefix " + prefix + ""
         }]
       }
     }).then(msg => {
@@ -103,8 +103,8 @@ exports.run = (client, message, args) => { //Collecting info about command
     });
   }
 
-  if (args[0] == 'авто-удаление' || args[0] == 'delete' && args[1] != null || args[0] == "autodelete") { //If first argument is 'prefix' or 'префикс' and second argument (new prefix) isn't null...
-    if (args[1] === "1" || args[1] === "да" || args[1] === "yes") {
+  if (args[0] == 'delete' && args[1] != null || args[0] == "autodelete") { //If first argument is 'prefix' or 'префикс' and second argument (new prefix) isn't null...
+    if (args[1] === "1" || args[1] === "yes" || args[1] === "true") {
       del = 'true'; //...Auto-deleting will become 'Yes'
       config[message.guild.id].delete = del;
       //and save the file.
@@ -117,8 +117,8 @@ exports.run = (client, message, args) => { //Collecting info about command
             "text": message + ""
           },
           "fields": [{
-            "name": "**Позиция успешно изменёна!**",
-            "value": "Теперь команды будут удаляться"
+            "name": "Parameter successfuly changed!",
+            "value": "Now commands will be deleted after " + config[message.guild.id].deleteTime + " seconds"
           }]
         }
       }).then(msg => {
@@ -127,7 +127,7 @@ exports.run = (client, message, args) => { //Collecting info about command
         }
       });
     }
-    if (args[1] === "0" || args[1] === "нет" || args[1] === "no") {
+    if (args[1] === "0" || args[1] === "false" || args[1] === "no") {
       del = 'false'; //...Auto-deleting will become 'No'
       config[message.guild.id].delete = del;
       //and save the file.
@@ -140,8 +140,8 @@ exports.run = (client, message, args) => { //Collecting info about command
             "text": message + ""
           },
           "fields": [{
-            "name": "**Позиция успешно изменёна!**",
-            "value": "Теперь команды не будут удаляться"
+            "name": "Parameter successfuly changed!",
+            "value": "Now commands won't be deleted"
           }]
         }
       }).then(msg => {
@@ -152,16 +152,16 @@ exports.run = (client, message, args) => { //Collecting info about command
     }
   }
 
-  if (args[0] == 'время' || args[0] == 'deleteTime' || args[0] == 'deletetime') {
+  if (args[0] == 'time' || args[0] == 'deleteTime' || args[0] == 'deletetime') {
     if (!args[1]) return message.channel.send({
       embed: {
-        "color": 16728064,
+        "color": 0xff2222,
         "timestamp": "1337-01-01T02:28:00",
         "footer": {
           "text": message + ""
         },
-        "description": 'Введите значение',
-        "title": "Ошибка"
+        "description": 'Enter value',
+        "title": "Error"
       }
     }).then(msg => {
       if (config[message.guild.id].delete == 'true') {
@@ -170,13 +170,13 @@ exports.run = (client, message, args) => { //Collecting info about command
     }); //If no value
     if (isNaN(args[1]) || args[1] > 360 || args[1] < 1) return message.channel.send({
       embed: {
-        "color": 16728064,
+        "color": 0xff2222,
         "timestamp": "1337-01-01T02:28:00",
         "footer": {
           "text": message + ""
         },
-        "description": 'Введите значение, которое является числом от 1 до 360',
-        "title": "Ошибка"
+        "description": 'Enter value between 1 and 360',
+        "title": "Error"
       }
     }).then(msg => {
       if (config[message.guild.id].delete == 'true') {
@@ -199,8 +199,8 @@ exports.run = (client, message, args) => { //Collecting info about command
           "text": message + ""
         },
         "fields": [{
-          "name": "**Префикс успешно изменён!**",
-          "value": "Теперь параметр `delTime` " + delTime / 1000 + " секунд"
+          "name": "Parameter `delTime` successfuly changed!",
+          "value": "Now `delTime` is " + delTime / 1000 + " seconds"
         }]
       }
     }).then(msg => {
@@ -213,13 +213,13 @@ exports.run = (client, message, args) => { //Collecting info about command
   if (args[0] == 'maxVolume' || args[0] == 'maxvolume') {
     if (!args[1]) return message.channel.send({
       embed: {
-        "color": 16728064,
+        "color": 0xff2222,
         "timestamp": "1337-01-01T02:28:00",
         "footer": {
           "text": message + ""
         },
-        "description": 'Введите значение',
-        "title": "Ошибка"
+        "description": 'Enter value',
+        "title": "Error"
       }
     }).then(msg => {
       if (config[message.guild.id].delete == 'true') {
@@ -228,13 +228,13 @@ exports.run = (client, message, args) => { //Collecting info about command
     }); //If no value
     if (isNaN(args[1]) || args[1] > 200 || args[1] < 0) return message.channel.send({
       embed: {
-        "color": 16728064,
+        "color": 0xff2222,
         "timestamp": "1337-01-01T02:28:00",
         "footer": {
           "text": message + ""
         },
-        "description": 'Введите значение, которое является числом от 0 до 200',
-        "title": "Ошибка"
+        "description": 'Enter value between 0 and 200',
+        "title": "Error"
       }
     }).then(msg => {
       if (config[message.guild.id].delete == 'true') {
@@ -257,8 +257,8 @@ exports.run = (client, message, args) => { //Collecting info about command
           "text": message + ""
         },
         "fields": [{
-          "name": "**Префикс успешно изменён!**",
-          "value": "Теперь параметр `maxVolume` " + maxVolume + "%"
+          "name": "Parameter `maxVolume` successfuly changed!**",
+          "value": "Now `maxVolume` is " + maxVolume + "%"
         }]
       }
     }).then(msg => {
@@ -268,16 +268,16 @@ exports.run = (client, message, args) => { //Collecting info about command
     });
   }
 
-  if (args[0] == 'громкость' || args[0] == 'volume') {
+  if (args[0] == 'vol' || args[0] == 'volume') {
     if (!args[1]) return message.channel.send({
       embed: {
-        "color": 16728064,
+        "color": 0xff2222,
         "timestamp": "1337-01-01T02:28:00",
         "footer": {
           "text": message + ""
         },
-        "description": 'Введите значение',
-        "title": "Ошибка"
+        "description": 'Enter value',
+        "title": "Error"
       }
     }).then(msg => {
       if (config[message.guild.id].delete == 'true') {
@@ -286,13 +286,13 @@ exports.run = (client, message, args) => { //Collecting info about command
     }); //If no value
     if (isNaN(args[1]) || args[1] > 200 || args[1] < 0) return message.channel.send({
       embed: {
-        "color": 16728064,
+        "color": 0xff2222,
         "timestamp": "1337-01-01T02:28:00",
         "footer": {
           "text": message + ""
         },
-        "description": 'Введите значение, которое является числом от 0 до 200',
-        "title": "Ошибка"
+        "description": 'Enter value between 0 and 200',
+        "title": "Error"
       }
     }).then(msg => {
       if (config[message.guild.id].delete == 'true') {
@@ -315,8 +315,8 @@ exports.run = (client, message, args) => { //Collecting info about command
           "text": message + ""
         },
         "fields": [{
-          "name": "**Префикс успешно изменён!**",
-          "value": "Теперь параметр `volume` " + volume + "%"
+          "name": "Default volume successfuly changed!",
+          "value": "Now `volume` is " + volume + "%"
         }]
       }
     }).then(msg => {

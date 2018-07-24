@@ -7,8 +7,8 @@ let conf = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
 
 exports.run = async (client, message, args) => {
 
-  let searchMessage = await message.channel.send("Поиск...");
-  let searchUrl = `https://www.google.com/search?q=${encodeURIComponent(message.content)}`; //https://www.google.com/search?q=${encodeURIComponent(message.content)}
+  let searchMessage = await message.channel.send("Searching...");
+  let searchUrl = `https://www.google.com/search?q=${encodeURIComponent(message.content)}`;
 
   return snekfetch.get(searchUrl).then((result) => {
 
@@ -20,7 +20,11 @@ exports.run = async (client, message, args) => {
     searchMessage.edit(`Result found!\n${googleData.q}`);
 
   }).catch((err) => {
-    searchMessage.edit('No results found!');
+    searchMessage.edit('No results found!').then(msg => {
+      if (conf[message.guild.id].delete == 'true') {
+        msg.delete(conf[message.guild.id].deleteTime);
+      }
+    });;
     console.log(err);
   });
 }

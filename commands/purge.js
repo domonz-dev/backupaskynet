@@ -1,17 +1,22 @@
 exports.run = async (client, message, args, ) => { //Collecting info about command
   const deleteCount = parseInt(args[0], 10);
 
-  if (!deleteCount || deleteCount < 2 || deleteCount > 1000)
-    return message.reply("Введите число от 2 до 1000");
+  if (!deleteCount || deleteCount < 2 || deleteCount > 100)
+    return message.channel.send({
+      embed: {
+        "title": "Enter number between 2 and 100",
+        "color": 0xff2222
+      }
+    });
 
   const fetched1 = await message.channel.fetchMessages({
     limit: deleteCount
   });
   message.channel.bulkDelete(fetched1)
-    .catch(error => message.reply(`Не могу что-то: ${error}`));
+    .catch(error => message.reply(`Shit, errors: ${error}`));
   message.channel.send({
     embed: {
-      "description": "Бот хочет кушац...\n**СЪЕДЕНО СООБЩЕНИЙ: " + deleteCount + "**",
+      "description": "Bot is hungry...\n**Ate messages: " + deleteCount + "**",
       "color": 16728064,
       "image": {
         "url": "https://media0.giphy.com/media/TYKOdOASPBVjW/giphy.gif"

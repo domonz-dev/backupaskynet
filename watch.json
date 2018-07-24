@@ -10,7 +10,8 @@
     ],
     "include": [
       "\\.js$",
-      "\\.json"
+      "\\.json",
+      "\\.sqlite"
     ]
   },
   "throttle": 90000

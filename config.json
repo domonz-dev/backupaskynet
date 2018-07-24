@@ -1,7 +1,7 @@
 {
   "464177325571964950": {
     "prefix": "+",
-    "delete": "false",
+    "delete": "true",
     "deleteTime": 10000,
     "volume": 100,
     "maxVolume": 200,
@@ -15,8 +15,8 @@
       "expoBot"
     ]
   },
-  "468804512946061352": {
-    "prefix": "+",
+  "339375771577614336": {
+    "prefix": "#",
     "delete": "true",
     "deleteTime": 10000,
     "volume": 100,
