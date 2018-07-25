@@ -1,4 +1,4 @@
-Discord.js bot - [expoBot](https://discordapp.com/api/oauth2/authorize?client_id=464747957288435732&permissions=8&scope=bot)
+Discord.js bot - [expoBot](https://discordapp.com/api/oauth2/authorize?client_id=464747957288435732&permissions=2146958583&scope=bot)
 ===================
 Site: [expobot.glitch.me](https://expobot.glitch.me)
 ------------------
