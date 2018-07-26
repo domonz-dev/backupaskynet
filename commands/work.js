@@ -41,7 +41,7 @@ exports.run = async (client, message, args) => {
           let workDailyEmbed = new Discord.RichEmbed()
             .setAuthor(`Cooldown`, message.author.displayAvatarURL)
             .setColor(0xff2222)
-            .setDescription(`**${message.author.tag}** just worked for 6 hours!\n*You require rest for **${timeObj.hours}h and ${timeObj.minutes}m** *`)
+            .setDescription(`**${message.author.tag}** just worked for 6 hours!\n*You require rest for* **${timeObj.hours}h and ${timeObj.minutes}m**`)
 
           message.channel.send(workDailyEmbed);
 
@@ -59,7 +59,8 @@ exports.run = async (client, message, args) => {
             let dailyEmbed = new Discord.RichEmbed()
               .setAuthor(`${message.author.tag} has finished sorting letters`, message.author.displayAvatarURL)
               .setColor(0xf4aa42)
-              .addField(`You've been payed for your shift,`, `You got paid: ${currencyFormatter.format(amount, { code: 'USD' })}`);
+              .addField(`You've been payed for your shift,`, `You got paid: ${currencyFormatter.format(amount, { code: 'USD' })}`)
+              .setFooter("Worked at " + workplace[result]);
 
             message.channel.send(dailyEmbed);
 
@@ -78,7 +79,8 @@ exports.run = async (client, message, args) => {
             let dailyEmbed = new Discord.RichEmbed()
               .setAuthor(`${message.author.tag} has finished washing dishes`, message.author.displayAvatarURL)
               .setColor(0xf4aa42)
-              .addField(`You've been payed for your shift,`, `You got paid: ${currencyFormatter.format(amount, { code: 'USD' })}`);
+              .addField(`You've been payed for your shift,`, `You got paid: ${currencyFormatter.format(amount, { code: 'USD' })}`)
+              .setFooter("Worked at " + workplace[result]);
 
             message.channel.send(dailyEmbed);
 
@@ -97,7 +99,8 @@ exports.run = async (client, message, args) => {
             let dailyEmbed = new Discord.RichEmbed()
               .setAuthor(`${message.author.tag} has finished selling products`, message.author.displayAvatarURL)
               .setColor(0xf4aa42)
-              .addField(`You've been payed for your shift,`, `You got paid: ${currencyFormatter.format(amount, { code: 'USD' })}`);
+              .addField(`You've been payed for your shift,`, `You got paid: ${currencyFormatter.format(amount, { code: 'USD' })}`)
+              .setFooter("Worked at " + workplace[result]);
 
             message.channel.send(dailyEmbed);
 
@@ -116,7 +119,8 @@ exports.run = async (client, message, args) => {
             let dailyEmbed = new Discord.RichEmbed()
               .setAuthor(`${message.author.tag} has finished working with clients`, message.author.displayAvatarURL)
               .setColor(0xf4aa42)
-              .addField(`You've been payed for your shift,`, `You got paid: ${currencyFormatter.format(amount, { code: 'USD' })}`);
+              .addField(`You've been payed for your shift,`, `You got paid: ${currencyFormatter.format(amount, { code: 'USD' })}`)
+              .setFooter("Worked at " + workplace[result]);
 
             message.channel.send(dailyEmbed);
 
@@ -135,7 +139,8 @@ exports.run = async (client, message, args) => {
             let dailyEmbed = new Discord.RichEmbed()
               .setAuthor(`${message.author.tag} has finished driving a taxi`, message.author.displayAvatarURL)
               .setColor(0xf4aa42)
-              .addField(`You've been payed for your shift,`, `You got paid: ${currencyFormatter.format(amount, { code: 'USD' })}`);
+              .addField(`You've been payed for your shift,`, `You got paid: ${currencyFormatter.format(amount, { code: 'USD' })}`)
+              .setFooter("Worked at " + workplace[result]);
 
             message.channel.send(dailyEmbed);
 
