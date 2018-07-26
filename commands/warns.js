@@ -7,16 +7,14 @@ exports.run = async (client, message, args) => {
 
   const userwarn = new db.table('USERWARNINGs');
 
-  userwarn.startsWith(`warn_${message.author.id}`, {
-    sort: '.data'
-  }).then(resp => {
+  userwarn.startsWith(`warn_${message.author.id}`).then(resp => {
 
     let title = 'Warns';
     var finalLb = "";
     var i = 0;
     var num = 1;
     for (i in resp) {
-      finalLb += `${num}. ${client.users.get(resp[i].ID.split('_')[1]).username} - \`${resp[i].data}\`\n`; //`${resp[i].ID.split('_')[2]}. ${client.users.get(resp[i].ID.split('_')[1]).username} - \`${resp[i].data}\`\n`
+      finalLb += `${num}. ${client.users.get(resp[i].ID.split('_')[1]).username} - \`${resp[i].data}\`\n`;
       num++;
     }
 
@@ -30,11 +28,9 @@ exports.run = async (client, message, args) => {
         "title": title,
         "color": 16777215
       }
+    }).then(msg => {
+      if (config[message.guild.id].delete === "true") {msg.delete(config[message.guild.id].deleteTime);}
     });
-  }).then(msg => {
-    if (config[message.guild.id].delete == 'true') {
-      msg.delete(config[message.guild.id].deleteTime);
-    }
   });
 
 }

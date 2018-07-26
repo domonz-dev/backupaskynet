@@ -1,6 +1,21 @@
+var fs = require('fs'); //FileSystem
+let config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
+
 exports.run = async (client, message, args, ) => { //Collecting info about command
   const deleteCount = parseInt(args[0], 10);
 
+  if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send({
+    embed: {
+      "description": "Denied!",
+      "color": 0xff2222,
+      "title": "Error"
+    }
+  }).then(msg => {
+    if (config[message.guild.id].delete == 'true') {
+      msg.delete(config[message.guild.id].deleteTime);
+    }
+  });
+  
   if (!deleteCount || deleteCount < 2 || deleteCount > 100)
     return message.channel.send({
       embed: {

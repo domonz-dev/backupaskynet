@@ -3,6 +3,18 @@ let config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
 const Discord = require('discord.js');
 
 exports.run = (client, message, args, ops) => {
+  
+  if (!message.member.hasPermission("MOVE_MEMBERS")) return message.channel.send({
+    embed: {
+      "description": "Denied!",
+      "color": 0xff2222,
+      "title": "Error"
+    }
+  }).then(msg => {
+    if (config[message.guild.id].delete == 'true') {
+      msg.delete(config[message.guild.id].deleteTime);
+    }
+  });
 
   let fetched = ops.active.get(message.guild.id);
 
@@ -27,24 +39,46 @@ exports.run = (client, message, args, ops) => {
       embed: {
         "description": "Volume: **" + fetched.dispatcher.volume * 100 + "%**"
       }
-    }).then(async function(msg) {
+    }).then(async msg => {
       await msg.react('➕');
       await msg.react('➖');
+      
+      const plusFilter = (reaction, user) => reaction.emoji.name === "➕" && user.id === message.author.id;
+      const minusFilter = (reaction, user) => reaction.emoji.name === "➖" && user.id === message.author.id;
+      
+      const plus = msg.createReactionCollector(plusFilter, {time: 60000});
+      const minus = msg.createReactionCollector(minusFilter, {time: 60000});
 
-      var reactions = await msg.awaitReactions(reaction => reaction.emoji.name === '➕' || reaction.emoji.name === '➖', {
-        time: 60000
-      });
-      console.log(msg.reactions.get('➕').count - 1)
-      if (msg.reactions.get('➕').count - 1 > 0) {
-        message.channel.send("+");
-        reactions.fetchUsers().then(function(reactionUsers) {
-          // Filter the user with the name 'MarketBot' (this bot) from the list of users
-          /*var me = reactionUsers.filter(message.author.id);
-          console.log(me);
-          reactions.remove(me);*/
+      plus.on("collect", r => {
+        
+        r.remove(message.author.id);
+        
+        if (fetched.dispatcher.volume + 0.25 > 2) return;
+        fetched.dispatcher.setVolume(fetched.dispatcher.volume + 0.25);
+        msg.edit({
+          embed: {
+            "description": "Volume: **" + fetched.dispatcher.volume * 100 + "%**"
+          }
         });
-      }
-
+      });
+      
+      minus.on("collect", r => {
+        
+        r.remove(message.author.id);
+        
+        if (fetched.dispatcher.volume - 0.25 < 0) return;
+        fetched.dispatcher.setVolume(fetched.dispatcher.volume - 0.25);
+        msg.edit({
+          embed: {
+            "description": "Volume: **" + fetched.dispatcher.volume * 100 + "%**"
+          }
+        });
+      });
+      
+      plus.on("end", r => {
+        msg.delete();
+      });
+      
     });
   }
   if (isNaN(args[0]) || args[0] > 200 || args[0] <= 0) {

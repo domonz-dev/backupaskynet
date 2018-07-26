@@ -4,6 +4,16 @@ var fs = require('fs'); //FileSystem
 let config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
 
 exports.run = async (client, message, args, ops) => { //Collecting info about command
+  
+  if (config[message.guild.id].djonly == true) {
+    if (!message.member.roles.some(r=>config[message.guild.id].djroles.includes(r.id))) return message.channel.send({ 
+      embed: {
+        "title": "Error", 
+        "description": "On this server DJOnly mode is turned on\nYou don't have any DJ role, so you can't play songs.\n*To see list of DJ roles, use `" + config[message.guild.id].prefix + "dj`*", 
+      } 
+    });
+  }
+  
   var song = args[0];
   var streamOptions = {
     seek: 0,
@@ -84,7 +94,11 @@ async function play(client, ops, data, streamOptions) {
   client.channels.get(data.queue[0].announceChannel).send(new Discord.RichEmbed()
     .setColor(0x0ea5d3)
     .setAuthor("Suggested by " + data.queue[0].requestAuthor.username, data.queue[0].requestAuthor.avatarURL)
-    .setDescription("Now playing **" + data.queue[0].songTitle + "**"));
+    .setDescription("Now playing **" + data.queue[0].songTitle + "**")).then(msg => {
+    if (config[data.guildID].delete == 'true') {
+      msg.delete(config[data.guildID].deleteTime);
+    }
+  });
 
   data.dispatcher = await data.connection.playStream(ytdl(data.queue[0].url, {
     filter: "audioonly"
