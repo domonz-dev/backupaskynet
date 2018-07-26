@@ -11,16 +11,17 @@ const apikey = "fqaQR125xBna1546NBsczXZ%,ZA2q1w43CXvdn%^GmgbnATonYaZ.mfa1";
 const ie3key = "Y643ZvNiNNA%";
 
 exports.run = (client, message, args, ops) => { //Collecting info about command
-    const w = ['https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2Fbg-6.png?1532607187251'];
+    const w = ['./a.png'];
 
     let Image = Canvas.Image,
     canvas = new Canvas(934, 282),
     ctx = canvas.getContext('2d');
     ctx.patternQuality = 'tilinear';
-    ctx.filter = 'tilinear';
+    //ctx.filter = 'tilinear';
     ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
     ctx.shadowOffsetY = 6;
-    ctx.shadowBlur = 50;
+    ctx.shadowBlur = 15
+    
     fs.readFile(`${w[Math.floor(Math.random() * w.length)]}`, function(err, Background) {
       if (err) return console.log(err)
       let BG = Canvas.Image;
@@ -38,17 +39,18 @@ exports.run = (client, message, args, ops) => { //Collecting info about command
             let Avatar = Canvas.Image;
             let ava = new Avatar;
             ava.src = buf;
-            ctx.drawImage(ava, 612, 30, 100, 1);
-            ctx.fontSize = '10px';
-            ctx.fillStyle = "#0x4gsdA";
-            ctx.textAlign = "middle";
-            ctx.fillText(message.member.user.username, 50, 1544);
+            var centerX = canvas.width / 2;
+            var centerY = canvas.height / 2;
+            var radius = 70;
 
-            ctx.font = "28px Arial";
+            ctx.drawImage(ava, 80, 77, 125, 125);
+
+            ctx.font = "36px Arial";
             ctx.fillStyle = "#FFFFFF";
             ctx.textAlign = "center";
-            ctx.fillText(` `, 200, 190);
-            message.channel.send(`Testing message.`, {
+            ctx.fillText(`${message.author.username}`, 300, 148);  
+          
+            message.channel.send({
               files: [
                 canvas.toBuffer()
               ]

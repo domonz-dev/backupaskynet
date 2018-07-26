@@ -11,7 +11,8 @@ setInterval(() => {
 }, 600000);
 
 //Libraries
-const db = require('quick.db');
+const db = require('quick.db'); //Quick.db
+const send = require('quick.hook'); //WebHooks lib
 db.createWebview(process.env.PASSWORD, process.env.PORT); // process.env.PORT creates the webview on the default port
 const points = new db.table('POINTS');
 const levels = new db.table('LEVELS');
@@ -31,6 +32,7 @@ const client = new Discord.Client({
   forceFetchUsers: true
 });
 const active = new Map();
+const log = client.channels.get('471603875749691393') // Logging channel
 
 const serverStats = {
   guildID: '471591472311828480',
@@ -166,7 +168,7 @@ client.on('message', message => { //If recieves message
   // POINT SYSTEM
   
   db.fetch(`${message.guild.id}_${message.author.id}`).then(i => {
-    if (i == null) levels.set(`balance_${message.guild.id}_${message.author.id}`, 50);
+    if (i == null) db.set(`balance_${message.guild.id}_${message.author.id}`, 50);
   });
   
   levels.fetch(`${message.guild.id}_${message.author.id}`).then(i => {
@@ -174,11 +176,11 @@ client.on('message', message => { //If recieves message
   });
   
   points.fetch(`${message.guild.id}_${message.author.id}`).then(i => {
-    if (i == null) levels.set(`${message.guild.id}_${message.author.id}`, 0);
+    if (i == null) points.set(`${message.guild.id}_${message.author.id}`, 0);
   });
   
   xpl.fetch(`${message.guild.id}_${message.author.id}`).then(i => {
-    if (i == null) levels.set(`${message.guild.id}_${message.author.id}`, 0);
+    if (i == null) xpl.set(`${message.guild.id}_${message.author.id}`, 0);
   });
   
   points.add(`${message.guild.id}_${message.author.id}`, xpAdd);
@@ -218,7 +220,7 @@ client.on('message', message => { //If recieves message
     return;
   }
   
-  if (message.content === prefix + "nsfw" && message.guild.id == 471591472311828480) {
+  if (message.content === prefix + "nsfw" && message.guild.id == "471591472311828480") {
     message.delete(1000);
     var author = message.member;
     var role = message.guild.roles.find('name', "Hide NSFW"); //Role Search
@@ -293,6 +295,17 @@ client.on('guildMemberAdd', member => {
   levels.set(`${member.guild.id}_${member.id}`, 1);
   points.set(`${member.guild.id}_${member.id}`, 0);
   xpl.set(`${member.guild.id}_${member.id}`, 0);
+  
+  var userGot = new Discord.RichEmbed()
+    .setColor(0x555555)
+    .setDescription("User got")
+    .setTitle(member.tag);
+  
+  send(log, userGot, {
+    name: "Bot Log",
+    icon: "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"
+  });
+  
 });
 
 client.on('guildMemberRemove', member => {
@@ -304,6 +317,17 @@ client.on('guildMemberRemove', member => {
   levels.delete(`${member.guild.id}_${member.id}`);
   points.delete(`${member.guild.id}_${member.id}`);
   xpl.delete(`${member.guild.id}_${member.id}`);
+  
+  var userLost = new Discord.RichEmbed()
+    .setColor(0x555555)
+    .setDescription("User lost")
+    .setTitle(member.tag);
+  
+  send(log, userLost, {
+    name: "Bot Log",
+    icon: "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"
+  });
+  
 });
 
 
