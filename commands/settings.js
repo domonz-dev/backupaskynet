@@ -11,6 +11,18 @@ exports.run = (client, message, args) => { //Collecting info about command
   var delTime = config[message.guild.id].deleteTime; //Time before delete state
   var volume = config[message.guild.id].volume; //Volume state
   var maxVolume = config[message.guild.id].maxVolume; //maxVolume state
+  
+  if (!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send({
+    embed: {
+      "description": "Denied!",
+      "color": 0xff2222,
+      "title": "Error"
+    }
+  }).then(msg => {
+    if (conf[message.guild.id].delete == 'true') {
+      msg.delete(conf[message.guild.id].deleteTime);
+    }
+  });
 
   if (!args[0]) return message.channel.send({ //Send embed
     embed: {
@@ -93,7 +105,7 @@ exports.run = (client, message, args) => { //Collecting info about command
         },
         "fields": [{
           "name": "Prefix successfuly changed!",
-          "value": "Now prefix " + prefix + ""
+          "value": "Now prefix is `" + prefix + "`"
         }]
       }
     }).then(msg => {

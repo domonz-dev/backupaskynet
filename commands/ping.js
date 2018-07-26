@@ -3,7 +3,7 @@ var fs = require('fs'); //FileSystem
 let config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
 let pings = JSON.parse(fs.readFileSync("./pings.json", "utf8")); //Config file
 
-exports.run = (client, message, args, language) => { //Collecting info about command
+exports.run = (client, message, args) => { //Collecting info about command
 
   if (!pings[message.guild.id]) {
     pings[message.guild.id] = 1;

@@ -36,20 +36,26 @@ exports.run = (client, message, args, ops) => { //Collecting info about command
 
     var title = `*Choose number between 1 and ${videos.length}*`;
 
+    const filter = m => !isNaN(m.content) && m.content <= videos.length && m.content > 0;
+    const collector = message.channel.createMessageCollector(filter);
+    
     message.channel.send({
       embed: {
         "description": response,
         "title": title,
         "color": 10616630
       }
+    }).then(m => {
+      collector.once('collect', async function(a) {
+        m.delete();
+        return;
+      });
     });
-
-    const filter = m => !isNaN(m.content) && m.content <= videos.length && m.content > 0;
-    const collector = message.channel.createMessageCollector(filter);
 
     collector.videos = videos;
 
     collector.once('collect', async function(m) {
+      m.delete();
       let commandFile = require('./play.js');
       await commandFile.run(client, message, [this.videos[parseInt(m.content) - 1].url], ops);
     });

@@ -7,7 +7,7 @@
   },
   "2": {
     "name": "Stats",
-    "group": "Moderator",
+    "group": "User",
     "desc": "Gives you some statistics",
     "usage": "stats"
   },
@@ -250,5 +250,11 @@
     "group": "User",
     "desc": "Shows Fortnite stats of a user. *Platforms: `pc | xbl | psn`*",
     "usage": "fortnite <pc|xbl|psn> <user>"
+  },
+  "43": {
+    "name": "ResetPrefix",
+    "group": "Admin",
+    "desc": "slightly resets prefix to '#'",
+    "usage": "#!reset-prefix"
   }
 }

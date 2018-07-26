@@ -14,7 +14,7 @@ exports.run = async (client, message, args, ops) => {
     "Just ban"
   ];
 
-  if (!message.member.hasPermission("KICK_MEMBERS") || message.author.id !== "338752589451755521") return message.channel.send({
+  if (!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send({
     embed: {
       "description": "Denied!",
       "color": 0xff2222,
@@ -24,7 +24,7 @@ exports.run = async (client, message, args, ops) => {
     if (conf[message.guild.id].delete == 'true') {
       msg.delete(conf[message.guild.id].deleteTime);
     }
-  });;
+  });
 
   let BMember = message.mentions.members.first();
   let BReason = args.slice(1).join(" ");
