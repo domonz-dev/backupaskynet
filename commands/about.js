@@ -16,7 +16,8 @@ exports.run = (client, message, args) => {
     .setColor(0xffffff)
     .setDescription(resp)
     .setFooter(footer)
-    .setTitle("About");
+    .setTitle("About | Click to join support server")
+    .setURL("https://discord.gg/ZZ8HuCZ")
   
   message.channel.send(embed);
   

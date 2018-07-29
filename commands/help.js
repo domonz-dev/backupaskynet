@@ -9,20 +9,34 @@ exports.run = (client, message, args) => { //Collecting info about command
 
   var help = new Discord.RichEmbed() //Embed with help
     .setColor(0xf4f142)
+  var help2 = new Discord.RichEmbed() //Embed with help
+    .setColor(0xf4f142)
 
   if (args.length == 0) { // If no args
-
     for (var i in commandsFile) { // In commandsFile
       if (commandsFile[i].group === "User") { // If type is User
-        cmdFound++; //++Commands found
-        help.addField(commandsFile[i].name, `**Description:** ${commandsFile[i].desc}\n**Usage:** ${pref + commandsFile[i].usage}`); //Adding fields with help
+        if (cmdFound >= 25) {
+          cmdFound++; //++Commands found
+          help2.addField(commandsFile[i].name, `**Description:** ${commandsFile[i].desc}\n**Usage:** \`\`${pref + commandsFile[i].usage}\`\``); //Adding fields with help
+        } else {
+          cmdFound++; //++Commands found
+          help.addField(commandsFile[i].name, `**Description:** ${commandsFile[i].desc}\n**Usage:** \`\`${pref + commandsFile[i].usage}\`\``); //Adding fields with help to another embed
+        }
       }
     }
-
-    help.setFooter(`Now showing only user commands. To view another group do ${pref}help (group|command)`); //Footer
+    
     help.setDescription(`**${cmdFound} commands found** - <> is required, () is optional`) //Desc
 
+    if (cmdFound >= 25) {
+      help2.setFooter(`Now showing only user commands. To view another group do ${pref}help (group|command)`); //Footer
+    } else {
+      help.setFooter(`Now showing only user commands. To view another group do ${pref}help (group|command)`); //Footer
+    }
+    
     message.author.send(help) //Sending to author
+    if (cmdFound >= 25) {
+      message.author.send(help2) //Sending to author
+    }
     message.channel.send({
       embed: {
         "description": "Sent you DM with help :kissing_heart:",

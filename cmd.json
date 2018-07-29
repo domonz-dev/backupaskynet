@@ -254,7 +254,61 @@
   "43": {
     "name": "ResetPrefix",
     "group": "Admin",
-    "desc": "slightly resets prefix to '#'",
+    "desc": "Slightly resets prefix to '#'",
     "usage": "#!reset-prefix"
+  },
+  "44": {
+    "name": "Rank",
+    "group": "User",
+    "desc": "Shows your or mentioned user rank card",
+    "usage": "rank (@user) (-color HEX)"
+  },
+  "45": {
+    "name": "XP",
+    "group": "User",
+    "desc": "Shows your or mentioned user amount of xps",
+    "usage": "xp (@user)"
+  },
+  "46": {
+    "name": "Balance",
+    "group": "User",
+    "desc": "Shows your balance in dollars",
+    "usage": "balance"
+  },
+  "47": {
+    "name": "Work",
+    "group": "User",
+    "desc": "Work and get money",
+    "usage": "work"
+  },
+  "48": {
+    "name": "Daily",
+    "group": "User",
+    "desc": "Get your daily money",
+    "usage": "daily"
+  },
+  "49": {
+    "name": "Convert",
+    "group": "User",
+    "desc": "Convert your XPs in dollars (1 dollars = 10XP)",
+    "usage": "convert <xp>"
+  },
+  "50": {
+    "name": "Say",
+    "group": "User",
+    "desc": "Say something with beautiful embed!",
+    "usage": "say <text>"
+  },
+  "51": {
+    "name": "Color",
+    "group": "User",
+    "desc": "Just random HEX code",
+    "usage": "color"
+  },
+  "52": {
+    "name": "About",
+    "group": "User",
+    "desc": "Something about this bot",
+    "usage": "about"
   }
 }

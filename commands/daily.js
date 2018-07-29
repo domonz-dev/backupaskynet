@@ -1,6 +1,5 @@
 const Discord = require('discord.js'); //Discord lib
 const db = require('quick.db'); //DB lib
-const send = require('quick.hook'); //WebHooks lib
 var ms = require('parse-ms'); //MS lib
 
 exports.run = async (client, message, args) => {
@@ -31,10 +30,6 @@ exports.run = async (client, message, args) => {
             .setFooter('Used by ' + message.author.tag, message.author.avatarURL);
 
           message.channel.send(lastDailyEmbed);
-          send(log, dailyCooldown, {
-            "name": "Daily Log", 
-            "icon": "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"
-          });
 
         } else {
 
@@ -54,11 +49,6 @@ exports.run = async (client, message, args) => {
             .setColor('#22ff22')
             .setDescription("Successfuly got daily reward")
             .setFooter('Used by ' + message.author.tag, message.author.avatarURL);
-
-            send(log, dailyGot, {
-              "name": "Daily Log", 
-              "icon": "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"
-            });
 
           });
         }

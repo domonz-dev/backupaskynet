@@ -1,1 +1,74 @@
-{"471322628661968921":{"prefix":"#","delete":"true","deleteTime":10000,"volume":100,"maxVolume":200,"djonly":true,"djroles":["471685733149835264"]},"339375771577614336":{"prefix":"#","delete":"true","deleteTime":10000,"volume":100,"maxVolume":200,"djonly":false,"djroles":[]},"471591472311828480":{"prefix":"+","delete":"false","deleteTime":10000,"volume":100,"maxVolume":200,"djonly":true,"djroles":["471672709676531712"]},"338754366586748929":{"prefix":"#","delete":"true","deleteTime":10000,"volume":100,"maxVolume":200,"djonly":false,"djroles":[]},"471714867280216071":{"prefix":"#","delete":"true","deleteTime":10000,"volume":100,"maxVolume":200,"djonly":false,"djroles":[]}}
+{
+  "264445053596991498": {
+    "prefix": "e[",
+    "delete": "true",
+    "deleteTime": 10000,
+    "volume": 100,
+    "maxVolume": 200,
+    "djonly": false,
+    "djroles": [],
+    "levelup": false
+  },
+  "471591472311828480": {
+    "prefix": "+",
+    "delete": "false",
+    "deleteTime": 10000,
+    "volume": "25",
+    "maxVolume": 200,
+    "djonly": false,
+    "djroles": [
+      "471672709676531712"
+    ],
+    "levelup": "true"
+  },
+  "454397533037395970": {
+    "prefix": "#",
+    "delete": "true",
+    "deleteTime": 10000,
+    "volume": 100,
+    "maxVolume": 200,
+    "djonly": false,
+    "djroles": [],
+    "levelup": false
+  },
+  "472413308813574165": {
+    "prefix": "#",
+    "delete": "true",
+    "deleteTime": 10000,
+    "volume": 100,
+    "maxVolume": 200,
+    "djonly": false,
+    "djroles": [],
+    "levelup": false
+  },
+  "471322628661968921": {
+    "prefix": "#",
+    "delete": "true",
+    "deleteTime": 10000,
+    "volume": 100,
+    "maxVolume": 200,
+    "djonly": false,
+    "djroles": [],
+    "levelup": false
+  },
+  "472844984106745874": {
+    "prefix": "#",
+    "delete": "true",
+    "deleteTime": 10000,
+    "volume": 100,
+    "maxVolume": 200,
+    "djonly": false,
+    "djroles": [],
+    "levelup": false
+  },
+  "471440739201712130": {
+    "prefix": "#",
+    "delete": "true",
+    "deleteTime": 10000,
+    "volume": 100,
+    "maxVolume": 200,
+    "djonly": false,
+    "djroles": [],
+    "levelup": false
+  }
+}
