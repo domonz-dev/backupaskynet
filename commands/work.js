@@ -1,6 +1,5 @@
 const Discord = require('discord.js'); //Discord lib
 const db = require('quick.db'); //DB lib
-const send = require('quick.hook'); //WebHooks lib
 var currencyFormatter = require('currency-formatter'); //For currency
 var ms = require('parse-ms'); //MS lib
 
@@ -14,20 +13,6 @@ exports.run = async (client, message, args) => {
     let workDaily = await db.fetch(`workDaily_${message.author.id}`) // Fetching the time when work is available.
     let result = Math.floor((Math.random() * workplace.length)) /* Random place */
     let timeObj = ms(cooldown - (Date.now() - workDaily)) // Left
-
-    /* Result embeds */
-
-    let workEmbed = new Discord.RichEmbed()
-      .setTitle(message.author.tag + " started working")
-      .setDescription(`Payed: ${currencyFormatter.format(amount, { code: 'USD' })}`)
-      .setColor(0x22ff22)
-
-    let cooldownEmbed = new Discord.RichEmbed()
-      .setTitle(message.author.tag + " in cooldown")
-      .setDescription(`Left: **${timeObj.hours}:${timeObj.minutes}:${timeObj.seconds}**`)
-      .setColor(0xff2222)
-
-    /* End of result embeds */
 
     try {
 
@@ -45,11 +30,6 @@ exports.run = async (client, message, args) => {
 
           message.channel.send(workDailyEmbed);
 
-          send(log, cooldownEmbed, {
-            name: "Work Log",
-            icon: "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"
-          });
-
         } else if (`${result}` == "0") { /* First place */
 
           db.set(`workDaily_${message.author.id}`, Date.now()); // Now time
@@ -64,10 +44,6 @@ exports.run = async (client, message, args) => {
 
             message.channel.send(dailyEmbed);
 
-            send(log, workEmbed, {
-              name: "Work Log",
-              icon: "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"
-            });
           });
 
         } else if (`${result}` == "1") { /* Second place */
@@ -83,11 +59,7 @@ exports.run = async (client, message, args) => {
               .setFooter("Worked at " + workplace[result]);
 
             message.channel.send(dailyEmbed);
-
-            send(log, workEmbed, {
-              name: "Work Log",
-              icon: "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"
-            });
+  
           });
 
         } else if (`${result}` == "2") { /* Third place */
@@ -103,11 +75,7 @@ exports.run = async (client, message, args) => {
               .setFooter("Worked at " + workplace[result]);
 
             message.channel.send(dailyEmbed);
-
-            send(log, workEmbed, {
-              name: "Work Log",
-              icon: "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"
-            });
+            
           });
 
         } else if (`${result}` == "3") { /* Fourth place */
@@ -124,10 +92,6 @@ exports.run = async (client, message, args) => {
 
             message.channel.send(dailyEmbed);
 
-            send(log, workEmbed, {
-              name: "Work Log",
-              icon: "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"
-            });
           });
 
         } else if (`${result}` == "4") { /* Fifth place */
@@ -144,10 +108,6 @@ exports.run = async (client, message, args) => {
 
             message.channel.send(dailyEmbed);
 
-            send(log, workEmbed, {
-              name: "Work Log",
-              icon: "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"
-            });
           });
 
         } else {

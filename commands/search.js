@@ -45,17 +45,11 @@ exports.run = (client, message, args, ops) => { //Collecting info about command
         "title": title,
         "color": 10616630
       }
-    }).then(m => {
-      collector.once('collect', async function(a) {
-        m.delete();
-        return;
-      });
     });
 
     collector.videos = videos;
 
     collector.once('collect', async function(m) {
-      m.delete();
       let commandFile = require('./play.js');
       await commandFile.run(client, message, [this.videos[parseInt(m.content) - 1].url], ops);
     });

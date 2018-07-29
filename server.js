@@ -93,14 +93,16 @@ client.on('guildCreate', guild => { // If the Bot was added on a server, proceed
   
   var welcome = new Discord.RichEmbed()
     .setColor(0x000000)
-    .setTitle("Joined " + guild.name + "")
+    .setURL("https://discord.gg/ZZ8HuCZ")
+    .setTitle("Joined " + guild.name + " | Click to join support server")
     .setDescription("**Well, hello, I think.**\n\nMy name is expoBot, as you can see. I'm just a bot. Another, same as other millions bots. And if you chose me, then you probably thought that I have a bunch of functions or that I have a cool economy, like MEE6?\nHaha, dude, you screwed up a lot\n\n")
     .addField("Prefix", `\`#\``, false)
     .addField("Auto-delete", "true", false)
     .addField("Delete time", "10s", false)
     .addField("Default volume", "100%", false)
     .addField("Max volume", "200%", false)
-    .setFooter("Members: " + guild.memberCount + " | Guild: " + guild.name + " | Use #help to get help information");
+    .addField("Level UP messages", "false", false)
+    .setFooter("Members: " + guild.memberCount + " | Guild: " + guild.name + " | Use #help to get help information | Official website: expobot.glitch.me");
   
   const channel = Promise.resolve(getDefaultChannel(guild));
   channel.then(function(ch) {
@@ -143,6 +145,7 @@ client.on('message', message => { //If recieves message
       maxVolume: 200,
       djonly: false,
       djroles: [],
+      levelup: false
     }
     fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
   }
@@ -157,6 +160,7 @@ client.on('message', message => { //If recieves message
       maxVolume: 200,
       djonly: false,
       djroles: [],
+      levelup: false
     }
     fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
   }
@@ -188,11 +192,13 @@ client.on('message', message => { //If recieves message
   points.fetch(`${message.guild.id}_${message.author.id}`).then(p => {
     levels.fetch(`${message.guild.id}_${message.author.id}`).then(l => {
       var xpReq = l * 300;
-      if(p >= xpReq) {
+      if(p >= xpReq ) {
         levels.add(`${message.guild.id}_${message.author.id}`, 1);
         points.set(`${message.guild.id}_${message.author.id}`, 0);
         levels.fetch(`${message.guild.id}_${message.author.id}`, {"target": ".data"}).then(lvl => {
-          message.channel.send({ embed: {"title": "Level Up!", "description": "Now your level - **" + lvl + "**", "color": 0x42f477} });
+          if (message.guild.id !== "264445053596991498" && config[message.guild.id].levelup !== false) {
+            message.channel.send({ embed: {"title": "Level Up!", "description": "Now your level - **" + lvl + "**", "color": 0x42f477} });
+          }
         });
       }
     });
@@ -201,14 +207,6 @@ client.on('message', message => { //If recieves message
   //END OF POINT SYSTEM
   
   var prefix = config[message.guild.id].prefix;
-
-  if (message.content.toLowerCase() === 'а' || message.content.toLowerCase() === 'a') {
-    message.channel.send({ embed: {"title": message.author.username + ', b.', "color": 0x609dff} }).then(msg => {
-        if (config[message.guild.id].delete == 'true') {
-          msg.delete(config[message.guild.id].deleteTime);
-        }
-      });
-  } //aaaaaaaaaaaaaaa
 
   let args = message.content.slice(prefix.length).trim().split(' '); //Setting-up arguments of command
   let cmd = args.shift().toLowerCase(); //LowerCase command

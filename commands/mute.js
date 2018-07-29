@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const ms = require("ms");
-const send = require('quick.hook'); //WebHooks lib
 var fs = require('fs'); //FileSystem
 let conf = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
 
@@ -83,26 +82,13 @@ module.exports.run = async (client, message, args) => {
       msg.delete(conf[message.guild.id].deleteTime);
     }
   });
-  
-  var muteLog = new Discord.RichEmbed()
-    .setColor(0xf4d742)
-    .setDescription(`<@${tomute.id}>` + " was muted by " + message.author.tag + "\nMuted for " + mutetime)
-    .setTitle("User muted in " + message.guild.name);
-  
-  send(log, muteLog, {"name": "Mute Log", "icon": "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"});
 
   setTimeout(function() {
     
     if (!tomute.roles.has(muterole.id)) return;
     
     tomute.removeRole(muterole.id);
-    
-    var unmuteLog = new Discord.RichEmbed()
-      .setColor(0xf4d742)
-      .setDescription(`<@${tomute.id}>` + " was muted for " + mutetime)
-      .setTitle("User unmuted in " + message.guild.name);
-    
-    send(log, unmuteLog, {"name": "Mute Log", "icon": "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"});
+
     message.channel.send({
       embed: {
         "description": `<@${tomute.id}> has been unmuted!`,

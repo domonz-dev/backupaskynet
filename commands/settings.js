@@ -11,6 +11,7 @@ exports.run = (client, message, args) => { //Collecting info about command
   var delTime = config[message.guild.id].deleteTime; //Time before delete state
   var volume = config[message.guild.id].volume; //Volume state
   var maxVolume = config[message.guild.id].maxVolume; //maxVolume state
+  var levelup = config[message.guild.id].levelup; //levelups messages state
   
   if (!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send({
     embed: {
@@ -48,6 +49,10 @@ exports.run = (client, message, args) => { //Collecting info about command
         {
           "name": "Max Volume",
           "value": "`maxVolume` - " + maxVolume + "%"
+        },
+        {
+          "name": "Level UP messages",
+          "value": "`levelup` - " + levelup
         }
       ]
     }
@@ -130,7 +135,7 @@ exports.run = (client, message, args) => { //Collecting info about command
           },
           "fields": [{
             "name": "Parameter successfuly changed!",
-            "value": "Now commands will be deleted after " + config[message.guild.id].deleteTime + " seconds"
+            "value": "Now commands will be deleted after " + config[message.guild.id].deleteTime/1000 + " seconds"
           }]
         }
       }).then(msg => {
@@ -336,5 +341,54 @@ exports.run = (client, message, args) => { //Collecting info about command
         msg.delete(config[message.guild.id].deleteTime);
       }
     });
+  }
+  
+  if (args[0] == 'levelup' && args[1] != null || args[0] == "lvlUp") { //If first argument is 'prefix' or 'префикс' and second argument (new prefix) isn't null...
+    if (args[1] === "1" || args[1] === "yes" || args[1] === "true") {
+      levelup = 'true'; //...Auto-deleting will become 'Yes'
+      config[message.guild.id].levelup = levelup;
+      //and save the file.
+      fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+      message.channel.send({ //Embed with text of success
+        embed: {
+          "color": 5308240,
+          "timestamp": "1337-01-01T02:28:00",
+          "footer": {
+            "text": message + ""
+          },
+          "fields": [{
+            "name": "Parameter successfuly changed!",
+            "value": "Now levelUPs messages will be sent"
+          }]
+        }
+      }).then(msg => {
+        if (config[message.guild.id].delete == 'true') {
+          msg.delete(config[message.guild.id].deleteTime);
+        }
+      });
+    }
+    if (args[1] === "0" || args[1] === "false" || args[1] === "no") {
+      levelup = 'false'; //...Auto-deleting will become 'No'
+      config[message.guild.id].levelup = levelup;
+      //and save the file.
+      fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+      message.channel.send({ //Embed with text of success
+        embed: {
+          "color": 5308240,
+          "timestamp": "1337-01-01T02:28:00",
+          "footer": {
+            "text": message + ""
+          },
+          "fields": [{
+            "name": "Parameter successfuly changed!",
+            "value": "Now levelUPs messages won't be sent"
+          }]
+        }
+      }).then(msg => {
+        if (config[message.guild.id].delete == 'true') {
+          msg.delete(config[message.guild.id].deleteTime);
+        }
+      });
+    }
   }
 }

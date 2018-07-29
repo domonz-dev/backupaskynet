@@ -15,6 +15,7 @@ exports.run = async (client, message, args, ops) => { //Collecting info about co
   }
   
   var song = args[0];
+  config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
   var streamOptions = {
     seek: 0,
     volume: config[message.guild.id].volume / 100

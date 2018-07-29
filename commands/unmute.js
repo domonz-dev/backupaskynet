@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const ms = require("ms");
-const send = require('quick.hook'); //WebHooks lib
 var fs = require('fs'); //FileSystem
 let conf = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
 
@@ -59,11 +58,4 @@ module.exports.run = async (client, message, args) => {
       }
     });
   
-  var unmuteLog = new Discord.RichEmbed()
-    .setColor(0xf4d742)
-    .setDescription(`<@${tomute.id}>` + " unmuted by " + message.author.tag)
-    .setTitle("User unmuted in " + message.guild.name);
-  
-  send(log, unmuteLog, {"name": "Mute Log", "icon": "https://cdn.glitch.com/88b80c67-e815-4e13-b6a0-9376c59ea396%2F862.png?1532600798485"});
-
 }
