@@ -5,7 +5,8 @@ var fs = require('fs'); //FileSystem
 let conf = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
 
 exports.run = async (client, message, args, ops) => {
-  db.startsWith(`balance_${message.guild.id}`, {
+  var points = new db.table("TOTAL_POINTS");
+  points.startsWith(`${message.guild.id}`, {
     sort: '.data'
   }).then(resp => {
     resp.length = 15;
@@ -14,7 +15,7 @@ exports.run = async (client, message, args, ops) => {
     var finalLb = "";
     var i = 0;
     for (i in resp) {
-      finalLb += `${client.users.get(resp[i].ID.split('_')[2]).username} - \`${currencyFormatter.format(resp[i].data, { code: 'USD' })}\`\n`;
+      finalLb += `**${client.users.get(resp[i].ID.split('_')[1]).username}** - \`${resp[i].data}xp\`\n`;
     }
 
     message.channel.send({
