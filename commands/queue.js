@@ -6,7 +6,7 @@ exports.run = (client, message, args, ops) => { //Collecting info about command
   let fetched = ops.active.get(message.guild.id);
 
   if (!fetched) {
-    return message.channel.send("Queue empty!");
+    return message.channel.send({ embed: {"description": "Queue empty!"} });
   }
 
   let queue = fetched.queue;

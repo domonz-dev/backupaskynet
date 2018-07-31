@@ -261,7 +261,7 @@
     "name": "Rank",
     "group": "User",
     "desc": "Shows your or mentioned user rank card",
-    "usage": "rank (@user) (-color HEX)"
+    "usage": "rank (@user) (-color HEX) (-image URL)"
   },
   "45": {
     "name": "XP",

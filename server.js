@@ -19,6 +19,10 @@ const levels = new db.table('LEVELS');
 const xpl = new db.table("TOTAL_POINTS");
 
 const Discord = require('discord.js'); //Discord library
+//Creating bot
+const client = new Discord.Client({
+  forceFetchUsers: true
+});
 const fs = require('fs'); //FileSystem
 try {
     var config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Overwrite prefix (important for changing prefix)
@@ -27,10 +31,6 @@ try {
     var config = {}
     fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
   }
-//Creating bot
-const client = new Discord.Client({
-  forceFetchUsers: true
-});
 const active = new Map();
 const log = client.channels.get('471603875749691393') // Logging channel
 
@@ -59,7 +59,7 @@ const getDefaultChannel = async (guild) => {
 }
 
 client.on("error", e => {
-  console.log("[ERROR]" + e);
+  console.log("[ERROR] " + e);
 });
 
 client.on('ready', () => { //Startup
@@ -83,11 +83,18 @@ client.on('guildCreate', guild => { // If the Bot was added on a server, proceed
   });
   
   const chan = client.channels.get("471603875749691393");
-  let liveLEmbed = new Discord.RichEmbed()
-    .setAuthor(client.user.username, client.user.avatarURL)
-    .setTitle(`Joined A Guild`)
-    .setDescription(`**Guild Name**: ${guild.name}\n**Guild ID**: ${guild.id}\n**Members Get**: ${guild.memberCount}`)
-    chan.send(liveLEmbed);
+  
+  config[guild.id] = {
+    prefix: '#',
+    delete: 'true',
+    deleteTime: 10000,
+    volume: 100,
+    maxVolume: 200,
+    djonly: false,
+    djroles: [],
+    levelup: false
+  }
+  fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
   
   /* Welcome message */
   
@@ -95,7 +102,7 @@ client.on('guildCreate', guild => { // If the Bot was added on a server, proceed
     .setColor(0x000000)
     .setURL("https://discord.gg/ZZ8HuCZ")
     .setTitle("Joined " + guild.name + " | Click to join support server")
-    .setDescription("**Well, hello, I think.**\n\nMy name is expoBot, as you can see. I'm just a bot. Another, same as other millions bots. And if you chose me, then you probably thought that I have a bunch of functions or that I have a cool economy, like MEE6?\nHaha, dude, you screwed up a lot\n\n")
+    .setDescription("**Well, hello, I think.**\n\nMy name is expoBot, as you can see. I'm just a bot. Perfect bot. Another, same as other millions bots.\n\n")
     .addField("Prefix", `\`#\``, false)
     .addField("Auto-delete", "true", false)
     .addField("Delete time", "10s", false)
@@ -109,6 +116,12 @@ client.on('guildCreate', guild => { // If the Bot was added on a server, proceed
     const chan1 = client.channels.get(ch);
     chan1.send(welcome);
   });
+  
+  let liveLEmbed = new Discord.RichEmbed()
+    .setAuthor(client.user.username, client.user.avatarURL)
+    .setTitle(`Joined A Guild`)
+    .setDescription(`**Guild Name**: ${guild.name}\n**Guild ID**: ${guild.id}\n**Members Get**: ${guild.memberCount}`)
+  chan.send(liveLEmbed);
   
 });  
 
@@ -210,7 +223,7 @@ client.on('message', message => { //If recieves message
 
   let args = message.content.slice(prefix.length).trim().split(' '); //Setting-up arguments of command
   let cmd = args.shift().toLowerCase(); //LowerCase command
-
+  
   if (message.content === "#!reset-prefix") {
     config[message.guild.id].prefix = '#';
     fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
@@ -237,7 +250,7 @@ client.on('message', message => { //If recieves message
   try {
     
     if (config[message.guild.id].delete == 'true') {
-      message.delete(config[message.guild.id].deleteTime);
+      message.delete(config[message.guild.id].deleteTime).catch(function(e) {console.log("[WARN] Can't delete message - " + e);});
     }
     
     let ops = { 
@@ -256,7 +269,7 @@ client.on('message', message => { //If recieves message
         }
       }).then(msg => {
         if (config[message.guild.id].delete == 'true') {
-          msg.delete(config[message.guild.id].deleteTime);
+          msg.delete(config[message.guild.id].deleteTime).catch(function(e) {console.log("[WARN] Can't delete message - " + e);});
         }
       });
     }
@@ -271,12 +284,12 @@ client.on('message', message => { //If recieves message
           "color": 0xff2222,
           "fields": [{
             "name": "**Error**",
-            "value": "Unknown command"
+            "value": "Something went wrong \n" + e
           }]
         }
       }).then(msg => {
         if (config[message.guild.id].delete == 'true') {
-          msg.delete(config[message.guild.id].deleteTime);
+          msg.delete(config[message.guild.id].deleteTime).catch(function(e) {console.log("[WARN] Can't delete message - " + e);});
         }
       });
     }

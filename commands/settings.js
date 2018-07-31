@@ -4,7 +4,7 @@ const Discord = require("discord.js");
 var fs = require('fs'); //FileSystem
 let config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Config file
 
-exports.run = (client, message, args) => { //Collecting info about command
+exports.run = (client, message, args, ops) => { //Collecting info about command
 
   var prefix = config[message.guild.id].prefix; //Prefix state
   var del = config[message.guild.id].delete; //Delete state
@@ -13,18 +13,13 @@ exports.run = (client, message, args) => { //Collecting info about command
   var maxVolume = config[message.guild.id].maxVolume; //maxVolume state
   var levelup = config[message.guild.id].levelup; //levelups messages state
   
-  if (!message.member.hasPermission("MANAGE_GUILD")) return message.channel.send({
-    embed: {
-      "description": "Denied!",
-      "color": 0xff2222,
-      "title": "Error"
-    }
-  }).then(msg => {
-    if (conf[message.guild.id].delete == 'true') {
-      msg.delete(conf[message.guild.id].deleteTime);
-    }
-  });
+  var perm = true;
+  
+  if (!message.member.hasPermission("MANAGE_GUILD")) perm = false;
+  
+  if (message.author.id == ops.ownerId) perm = true;
 
+  if (perm == true) {
   if (!args[0]) return message.channel.send({ //Send embed
     embed: {
       "title": "Settings",
@@ -390,5 +385,18 @@ exports.run = (client, message, args) => { //Collecting info about command
         }
       });
     }
+  }
+  } else {
+    message.channel.send({
+    embed: {
+      "description": "Denied!",
+      "color": 0xff2222,
+      "title": "Error"
+    }
+  }).then(msg => {
+        if (config[message.guild.id].delete == 'true') {
+          msg.delete(config[message.guild.id].deleteTime);
+        }
+      });
   }
 }
