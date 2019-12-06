@@ -62,7 +62,7 @@ client.on("error", e => {
 
 client.on('ready', () => { //Startup
   console.log("Bot on!");
-  client.user.setUsername("expoBot");
+  client.user.setUsername("SkyNet test");
   client.user.setStatus('online');
   client.user.setActivity(`on ${client.users.size} users | ^help`, {
     type: 'WATCHING'
@@ -81,6 +81,7 @@ client.on('guildCreate', guild => { // If the Bot was added on a server, proceed
   });
   
   config[guild.id] = {
+    prefix: '^',
     delete: 'true',
     deleteTime: 10000,
     volume: 100,
@@ -154,6 +155,7 @@ client.on('message', message => { //If recieves message
     config = JSON.parse(fs.readFileSync("./config.json", "utf8")); //Overwrite prefix (important for changing prefix)
   } catch(ex){
     config[message.guild.id] = {
+      prefix: '^',
       delete: 'true',
       deleteTime: 10000,
       volume: 100,
@@ -168,6 +170,7 @@ client.on('message', message => { //If recieves message
   
   if (config[message.guild.id] == undefined) {
     config[message.guild.id] = {
+      prefix: '^',
       delete: 'true',
       deleteTime: 10000,
       volume: 100,
